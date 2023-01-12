@@ -4,19 +4,19 @@
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "noImplicitOverride": true,
-    "noPropertyAccessFromIndexSignature": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "sourceMap": true,
-    "declaration": false,
-    "downlevelIteration": true,
-    "experimentalDecorators": true,
-    "moduleResolution": "node",
-    "importHelpers": true,
-    "target": "ES2022",
+    "forceConsistentCasingInFileNames": true, // import等でファイル名の大文字小文字を区別するか
+    "strict": true, // 強く型チェックするか
+    "noImplicitOverride": true, // 暗黙overrideを禁止するか
+    "noPropertyAccessFromIndexSignature": true, // インデックスシグネチャ（≒インデクサ）に対して「.xxx」でのアクセスを禁止するか
+    "noImplicitReturns": true, // 暗黙returnを禁止するか
+    "noFallthroughCasesInSwitch": true, // switch文のフォールスルーを禁止するか
+    "sourceMap": true, // mapファイルを出力するか（デバッガが使用する）
+    "declaration": false, // 型無指定の宣言があることを想定するか（型無指定宣言をコンパイラがどう解釈したかを記載する.d.jsを出力するか）
+    "downlevelIteration": true, // ES5以前をtargetにした場合、厳密に正しくforなどに変換するか
+    "experimentalDecorators": true, // Decorator（≒アノテーション）をjavascriptに出力するか（ESで標準化されていない試験機能）
+    "moduleResolution": "node", // importの探索・解決方法はnode.jsに従うか
+    "importHelpers": true, // コンパイル時に必要になったPolyfillは、tslibとして別ファイルにまとめておくか
+    "target": "ES2022", // この値は使用されなくなりました。代わりに.browserslistrcから自動決定されます
     "module": "ES2022",
     "useDefineForClassFields": false,
     "lib": [
