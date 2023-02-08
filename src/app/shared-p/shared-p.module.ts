@@ -12,6 +12,7 @@ import { AppTimeoutInterceptor, APP_HTTP_TIMEOUT_SEC } from './ngx-http/app-time
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { AppMessageBoxService } from './bs-wrapper/app-message-box.service';
 import { AppMessageBoxComponent } from './bs-wrapper/app-message-box/app-message-box.component';
+import { AppModalService } from './bs-wrapper/app-modal.service';
 
 // Provider module.
 // このNgModuleは、ルートNgModuleによってのみNg importsされることを意図している
@@ -48,6 +49,7 @@ import { AppMessageBoxComponent } from './bs-wrapper/app-message-box/app-message
     { provide: APP_AJAX_RETRY_DELAY_SEC, useValue: appconfig.appAjaxRetryDelay_sec },
 
     AppMessageBoxService,
+    AppModalService,
   ]
 })
 export class SharedPModule { }

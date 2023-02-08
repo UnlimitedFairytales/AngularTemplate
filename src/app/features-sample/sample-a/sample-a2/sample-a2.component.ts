@@ -3,6 +3,8 @@ import { from, lastValueFrom, timeout } from 'rxjs';
 import { AppAjaxService } from 'src/app/shared-p/ngx-http/app-ajax.service';
 import { AppAnimations } from 'src/app/utils/ngx/app-animations';
 import { AppMessageBoxButton, AppMessageBoxService } from 'src/app/shared-p/bs-wrapper/app-message-box.service';
+import { AppModalService } from 'src/app/shared-p/bs-wrapper/app-modal.service';
+import { SampleA2DialogComponent } from './sample-a2-dialog/sample-a2-dialog.component';
 
 @Component({
   selector: 'app-sample-a2',
@@ -14,7 +16,8 @@ export class SampleA2Component {
 
   constructor(
     private appAjaxService: AppAjaxService,
-    private appMessageBoxService: AppMessageBoxService) { }
+    private appMessageBoxService: AppMessageBoxService,
+    private appModalService: AppModalService) { }
 
   throwError_click(): void {
     throw new Error('Error example.');
@@ -72,5 +75,10 @@ export class SampleA2Component {
     ];
     const result = await this.appMessageBoxService.showAsync('message box sample!', 'YEAH!!!!', buttons);
     console.log(result === 0 ? 'Yes!' : 'No or Cancel!');
+  }
+
+  async showModal_clickAsync(): Promise<void> {
+    const result = await this.appModalService.showAsync(SampleA2DialogComponent, { value: 'FOO!!' });
+    console.log(result);
   }
 }
