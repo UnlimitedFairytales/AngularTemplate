@@ -45,3 +45,12 @@
     <i class="fas fa-at"></i> debounce (1000ms)
   </button>
 </div>
+<div>
+  <button type="button" class="btn btn-secondary" (click)="setLocaleEnus_click()">
+    <i class="fas fa-earth-asia"></i> en-US</button>
+  <button type="button" class="btn btn-secondary" (click)="setLocaleJajp_click()">
+    <i class="fas fa-earth-asia"></i> ja-JP</button>
+  <button type="button" class="btn btn-primary" (click)="showLocaledMessage_clickAsync()">
+    <i class="fas fa-earth-asia"></i> {{ 'COMMON.BUTTON.DETAIL' | appLocaleText }}
+  </button>
+</div>

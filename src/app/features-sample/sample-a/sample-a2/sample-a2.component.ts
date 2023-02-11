@@ -6,6 +6,7 @@ import { AppMessageBoxButton, AppMessageBoxService } from 'src/app/shared-p/bs-w
 import { AppModalService } from 'src/app/shared-p/bs-wrapper/app-modal.service';
 import { SampleA2DialogComponent } from './sample-a2-dialog/sample-a2-dialog.component';
 import { Debounce } from 'src/app/utils/decorators/debounce';
+import { AppLocaleService } from 'src/app/shared-p/locale/app-locale.service';
 
 @Component({
   selector: 'app-sample-a2',
@@ -18,7 +19,8 @@ export class SampleA2Component {
   constructor(
     private appAjaxService: AppAjaxService,
     private appMessageBoxService: AppMessageBoxService,
-    private appModalService: AppModalService) { }
+    private appModalService: AppModalService,
+    private appLocaleService: AppLocaleService) { }
 
   throwError_click(): void {
     throw new Error('Error example.');
@@ -86,5 +88,18 @@ export class SampleA2Component {
   @Debounce(1000)
   debounce_click(): void {
     console.log('debounce_click called!');
+  }
+
+  setLocaleEnus_click(): void {
+    this.appLocaleService.storage_LocaleId = 'en-US';
+  }
+
+  setLocaleJajp_click(): void {
+    this.appLocaleService.storage_LocaleId = 'ja-JP';
+  }
+
+  async showLocaledMessage_clickAsync(): Promise<void> {
+    const msg = this.appLocaleService.getLocaleMessage('W2008', ['foo', 'bar']);
+    await this.appMessageBoxService.showAsync(msg);
   }
 }
