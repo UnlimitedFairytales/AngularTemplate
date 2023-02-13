@@ -7,6 +7,9 @@ import { AppModalService } from 'src/app/shared-p/bs-wrapper/app-modal.service';
 import { SampleA2DialogComponent } from './sample-a2-dialog/sample-a2-dialog.component';
 import { Debounce } from 'src/app/utils/decorators/debounce';
 import { AppLocaleService } from 'src/app/shared-p/locale/app-locale.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AppIsSaved } from 'src/app/shared-p/ngx-guard/app-is-saved';
+import { AppObject } from 'src/app/utils/helpers/app-object';
 
 @Component({
   selector: 'app-sample-a2',
@@ -14,13 +17,37 @@ import { AppLocaleService } from 'src/app/shared-p/locale/app-locale.service';
   styleUrls: ['./sample-a2.component.scss'],
   animations: [AppAnimations.openClose('slowOpenClose', '2000ms', 'cubic-bezier(0.5, 0, 0.1, 1)'), AppAnimations.openClose('fastOpenClose', '100ms')]
 })
-export class SampleA2Component {
+export class SampleA2Component implements AppIsSaved {
+
+  form: FormGroup;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  orgData: any;
 
   constructor(
     private appAjaxService: AppAjaxService,
     private appMessageBoxService: AppMessageBoxService,
     private appModalService: AppModalService,
-    private appLocaleService: AppLocaleService) { }
+    private appLocaleService: AppLocaleService,
+    private formBuilder: FormBuilder) {
+
+    const var2 = 'C0003';
+    const var3 = '次郎';
+    this.form = this.formBuilder.group({
+      accountCode: [{ value: var2, disabled: false }, [Validators.required, Validators.minLength(5), Validators.maxLength(5)]],
+      accountName: [{ value: var3, disabled: false }, [Validators.required]],
+    });
+    this.orgData = this.form.getRawValue();
+  }
+
+  /* implements AppIsSaved */
+  async isSavedAsync(): Promise<boolean> {
+    console.log(this.orgData.accountCode);
+    console.log(this.orgData.accountName);
+    if (AppObject.stringifyEquals(this.orgData, this.form.getRawValue())) {
+      return await Promise.resolve(true);
+    }
+    return await Promise.resolve(false);
+  }
 
   throwError_click(): void {
     throw new Error('Error example.');

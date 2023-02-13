@@ -54,3 +54,7 @@
     <i class="fas fa-earth-asia"></i> {{ 'COMMON.BUTTON.DETAIL' | appLocaleText }}
   </button>
 </div>
+<div [formGroup]="form">
+  <input type='text' formControlName="accountCode">
+  <input type='text' formControlName="accountName">
+</div>
