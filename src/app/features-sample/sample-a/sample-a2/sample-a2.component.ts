@@ -7,9 +7,10 @@ import { AppModalService } from 'src/app/shared-p/bs-wrapper/app-modal.service';
 import { SampleA2DialogComponent } from './sample-a2-dialog/sample-a2-dialog.component';
 import { Debounce } from 'src/app/utils/decorators/debounce';
 import { AppLocaleService } from 'src/app/shared-p/locale/app-locale.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { AppIsSaved } from 'src/app/shared-p/ngx-guard/app-is-saved';
 import { AppObject } from 'src/app/utils/helpers/app-object';
+import { AppValidators } from 'src/app/shared-p/ngx-form/app-validators';
 
 @Component({
   selector: 'app-sample-a2',
@@ -28,13 +29,25 @@ export class SampleA2Component implements AppIsSaved {
     private appMessageBoxService: AppMessageBoxService,
     private appModalService: AppModalService,
     private appLocaleService: AppLocaleService,
-    private formBuilder: FormBuilder) {
+    private formBuilder: FormBuilder,
+    private appValidators: AppValidators) {
 
+    const l = appLocaleService;
     const var2 = 'C0003';
     const var3 = '次郎';
     this.form = this.formBuilder.group({
-      accountCode: [{ value: var2, disabled: false }, [Validators.required, Validators.minLength(5), Validators.maxLength(5)]],
-      accountName: [{ value: var3, disabled: false }, [Validators.required]],
+      accountCode: [{ value: var2, disabled: false }, null],
+      accountName: [{ value: var3, disabled: false }, null],
+      minmax______: [{ value: null, disabled: false }, [AppValidators.required(l.msg('W2001')), AppValidators.min(l.msg('W2010', [-1]), -1), AppValidators.max(l.msg('W2011', [9]), 9)]],
+      email_______: [{ value: null, disabled: false }, [AppValidators.required(l.msg('W2001')), AppValidators.email(l.msg('W2016'))]],
+      minmaxlength: [{ value: null, disabled: false }, [AppValidators.minLength(l.msg('W2006', [3]), 3), AppValidators.maxLength(l.msg('W2007', [5]), 5)]],
+      pattern_____: [{ value: null, disabled: false }, [AppValidators.pattern(l.msg('W2013'), '[12]+')]],
+      number______: [{ value: null, disabled: false }, [AppValidators.number(l.msg('W2013'))]],
+      integer_____: [{ value: null, disabled: false }, [AppValidators.integer(l.msg('W2014'))]],
+      nonNegativeI: [{ value: null, disabled: false }, [AppValidators.nonNegativeInteger(l.msg('W2010', [0]))]],
+      telephone___: [{ value: null, disabled: false }, [AppValidators.telephone(l.msg('W2015'))]],
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      other_______: [{ value: null, disabled: false }, [AppValidators.other((c) => l.msg('W2017'))]],
     });
     this.orgData = this.form.getRawValue();
   }
@@ -128,5 +141,9 @@ export class SampleA2Component implements AppIsSaved {
   async showLocaledMessage_clickAsync(): Promise<void> {
     const msg = this.appLocaleService.getLocaleMessage('W2008', ['foo', 'bar']);
     await this.appMessageBoxService.showAsync(msg);
+  }
+
+  async validateAllAsync(): Promise<void> {
+    if (await this.appValidators.hasErrorAsync(this.form)) return;
   }
 }

@@ -57,4 +57,24 @@
 <div [formGroup]="form">
   <input type='text' formControlName="accountCode">
   <input type='text' formControlName="accountName">
+  <div>
+    <input type='text' formControlName="minmax______" appValidate placeholder="min max">
+    <input type='text' formControlName="email_______" appValidate placeholder="e-mail@foo">
+    <input type='text' formControlName="minmaxlength" appValidate placeholder="length">
+  </div>
+  <div>
+    <input type='text' formControlName="pattern_____" appValidate placeholder="pattern">
+    <input type='text' formControlName="number______" appValidate placeholder="allow Infinity">
+    <input type='text' formControlName="integer_____" appValidate placeholder="integer">
+  </div>
+  <div>
+    <input type='text' formControlName="nonNegativeI" appValidate placeholder="0~">
+    <input type='text' formControlName="telephone___" appValidate placeholder="000-0000-0000">
+    <input type='text' formControlName="other_______" appValidate placeholder="all ng">
+  </div>
+  <div>
+    <button type="button" class="btn btn-secondary" (click)="validateAllAsync()">
+      <i class="fab fa-angular"></i> validate all
+    </button>
+  </div>
 </div>

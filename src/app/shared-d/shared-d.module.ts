@@ -17,12 +17,14 @@ import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { AppLocaleTextPipe } from './locale/app-locale-text.pipe';
+import { ValidateDirective } from './ngx-form/validate.directive';
 
 // Declarable module.
 // このNgModuleは、全てのNgModuleでNg importsされることを意図している
 @NgModule({
   declarations: [
-    AppLocaleTextPipe
+    AppLocaleTextPipe,
+    ValidateDirective,
   ],
   exports: [
     CommonModule,
@@ -45,6 +47,7 @@ import { AppLocaleTextPipe } from './locale/app-locale-text.pipe';
     TypeaheadModule,
 
     AppLocaleTextPipe,
+    ValidateDirective,
   ],
 })
 export class SharedDModule { }

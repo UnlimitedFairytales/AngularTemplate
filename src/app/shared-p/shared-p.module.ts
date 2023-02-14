@@ -14,6 +14,7 @@ import { AppMessageBoxService } from './bs-wrapper/app-message-box.service';
 import { AppMessageBoxComponent } from './bs-wrapper/app-message-box/app-message-box.component';
 import { AppModalService } from './bs-wrapper/app-modal.service';
 import { AppLocaleService } from "./locale/app-locale.service";
+import { AppValidators } from "./ngx-form/app-validators";
 
 // Provider module.
 // このNgModuleは、ルートNgModuleによってのみNg importsされることを意図している
@@ -52,6 +53,7 @@ import { AppLocaleService } from "./locale/app-locale.service";
     AppMessageBoxService,
     AppModalService,
     AppLocaleService,
+    AppValidators,
   ]
 })
 export class SharedPModule { }
