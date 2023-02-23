@@ -18,6 +18,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { AppLocaleTextPipe } from './locale/app-locale-text.pipe';
 import { ValidateDirective } from './ngx-form/validate.directive';
+import { DatepickerExDirective } from './bs-wrapper/datepicker-ex.directive';
 
 // Declarable module.
 // このNgModuleは、全てのNgModuleでNg importsされることを意図している
@@ -25,6 +26,7 @@ import { ValidateDirective } from './ngx-form/validate.directive';
   declarations: [
     AppLocaleTextPipe,
     ValidateDirective,
+    DatepickerExDirective,
   ],
   exports: [
     CommonModule,
@@ -48,6 +50,7 @@ import { ValidateDirective } from './ngx-form/validate.directive';
 
     AppLocaleTextPipe,
     ValidateDirective,
+    DatepickerExDirective,
   ],
 })
 export class SharedDModule { }

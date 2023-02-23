@@ -12,6 +12,9 @@ import { AppIsSaved } from 'src/app/shared-p/ngx-guard/app-is-saved';
 import { AppObject } from 'src/app/utils/helpers/app-object';
 import { AppValidators } from 'src/app/shared-p/ngx-form/app-validators';
 import { AppLoginDialogComponent, AppLoginDialogComponentInitialData, APP_LOGIN_DIALOG_COMPONENT_INITIAL_DATA } from 'src/app/shared-p/auth/app-login-dialog/app-login-dialog.component';
+import { BsDatepickerConfig, BsLocaleService } from 'ngx-bootstrap/datepicker';
+import { AppBsDatepickerConfig } from 'src/app/utils/ngx-bootstrap-helpers/app-bs-datepicker.config';
+import { AppDate } from 'src/app/utils/helpers/app-date';
 
 @Component({
   selector: 'app-sample-a2',
@@ -24,6 +27,7 @@ export class SampleA2Component implements AppIsSaved {
   form: FormGroup;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   orgData: any;
+  bsDatepickerConfig: BsDatepickerConfig;
 
   constructor(
     private appAjaxService: AppAjaxService,
@@ -32,7 +36,8 @@ export class SampleA2Component implements AppIsSaved {
     private appLocaleService: AppLocaleService,
     private formBuilder: FormBuilder,
     private appValidators: AppValidators,
-    @Inject(APP_LOGIN_DIALOG_COMPONENT_INITIAL_DATA) private appLoginDialogComponentInitialData: AppLoginDialogComponentInitialData) {
+    @Inject(APP_LOGIN_DIALOG_COMPONENT_INITIAL_DATA) private appLoginDialogComponentInitialData: AppLoginDialogComponentInitialData,
+    private bsLocaleService: BsLocaleService) {
 
     const l = appLocaleService;
     const var2 = 'C0003';
@@ -48,10 +53,16 @@ export class SampleA2Component implements AppIsSaved {
       integer_____: [{ value: null, disabled: false }, [AppValidators.integer(l.msg('W2014'))]],
       nonNegativeI: [{ value: null, disabled: false }, [AppValidators.nonNegativeInteger(l.msg('W2010', [0]))]],
       telephone___: [{ value: null, disabled: false }, [AppValidators.telephone(l.msg('W2015'))]],
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      other_______: [{ value: null, disabled: false }, [AppValidators.other((c) => l.msg('W2017'))]],
+      other_______: [{ value: null, disabled: false }, [AppValidators.other((c) => {
+        console.log(c.value);
+        return AppDate.isYYYYMMDDLike(c.value, 'yyyyMMdd') ? null : l.msg('W2017');
+      })]],
     });
     this.orgData = this.form.getRawValue();
+    this.bsDatepickerConfig = Object.assign(AppBsDatepickerConfig.getConfigBase_Day(), {
+      minDate: new Date('2020-04-01'),
+      maxDate: new Date('2030-03-31')
+    });
   }
 
   /* implements AppIsSaved */
@@ -132,12 +143,13 @@ export class SampleA2Component implements AppIsSaved {
     console.log('debounce_click called!');
   }
 
-  setLocaleEnus_click(): void {
-    this.appLocaleService.storage_LocaleId = 'en-US';
-  }
-
-  setLocaleJajp_click(): void {
-    this.appLocaleService.storage_LocaleId = 'ja-JP';
+  setLocaleEnus_click(): void { this.setLocale('en-US'); }
+  setLocaleJajp_click(): void { this.setLocale('ja-JP'); }
+  private setLocale(l: string) {
+    this.appLocaleService.storage_LocaleId = l;
+    const bsLocale = AppBsDatepickerConfig.toBsLocaleServiceLocale(l);
+    this.bsLocaleService.use(bsLocale);
+    this.bsDatepickerConfig.clearButtonLabel = this.appLocaleService.getLocaleText('COMMON.BUTTON.CLEAR');
   }
 
   async showLocaledMessage_clickAsync(): Promise<void> {

@@ -70,7 +70,8 @@
   <div>
     <input type='text' formControlName="nonNegativeI" appValidate placeholder="0~">
     <input type='text' formControlName="telephone___" appValidate placeholder="000-0000-0000">
-    <input type='text' formControlName="other_______" appValidate placeholder="all ng">
+    <input type="text" formControlName="other_______" appValidate placeholder="date" appDatepickerEx
+      [bsConfig]="bsDatepickerConfig">
   </div>
   <div>
     <button type="button" class="btn btn-secondary" (click)="validateAllAsync()">

@@ -10,6 +10,7 @@ import { AppAjaxService, APP_AJAX_RETRY_COUNT, APP_AJAX_RETRY_DELAY_SEC, APP_AJA
 import { AppTimeoutInterceptor, APP_HTTP_TIMEOUT_SEC } from './ngx-http/app-timeout-interceptor';
 
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { AppMessageBoxService } from './bs-wrapper/app-message-box.service';
 import { AppMessageBoxComponent } from './bs-wrapper/app-message-box/app-message-box.component';
 import { AppModalService } from './bs-wrapper/app-modal.service';
@@ -31,6 +32,7 @@ import { AppAuthService, APP_AUTH_ENDPOINTS } from "./auth/app-auth.service";
   imports: [
     SharedDModule,
     ModalModule.forRoot(), // provide BsModalService, ComponentLoaderFactory, PositioningService
+    BsDatepickerModule.forRoot(), // provide ComponentLoaderFactory, PositioningService, BsDatepickerStore, BsDatepickerActions, BsDatepickerEffects, BsLocaleService, TimepickerActions
   ],
   declarations: [
     AppMessageBoxComponent,
