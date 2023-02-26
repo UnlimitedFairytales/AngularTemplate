@@ -11,9 +11,14 @@
       "extends": [
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking",
+        "plugin:@typescript-eslint/strict",
         "plugin:@angular-eslint/recommended",
         "plugin:@angular-eslint/template/process-inline-templates"
       ],
+      "parserOptions": {
+        "project": "./tsconfig.json"
+      },
       "rules": {
         "@angular-eslint/directive-selector": [
           "error",
@@ -30,7 +35,13 @@
             "prefix": "app",
             "style": "kebab-case"
           }
-        ]
+        ],
+        "eqeqeq": "error",
+        "@typescript-eslint/no-extraneous-class": "off",
+        "@typescript-eslint/no-unsafe-assignment": "off",
+        "@typescript-eslint/no-unsafe-member-access": "off",
+        "@typescript-eslint/prefer-for-of": "off",
+        "@typescript-eslint/unbound-method": ["error", { "ignoreStatic": true }]
       }
     },
     {
