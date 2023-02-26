@@ -1,1 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* Importing Bootstrap SCSS file. */
+@import "./node_modules/bootstrap/scss/bootstrap";
+
+/* Importing Datepicker SCSS file. */
+@import "node_modules/ngx-bootstrap/datepicker/bs-datepicker";
+
+/* Importing fortawesome CSS file. */
+@import "node_modules/@fortawesome/fontawesome-free/css/all.min.css";
+
+.btn-cta {
+  @include button-variant(#ffa41c, #fa8900, #121418);
+}
+
+.btn-default {
+  @include button-variant(#f6f6f6, #D0CDC7, #343a40)
+}
