@@ -1,7 +1,8 @@
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedDModule } from '../shared-d/shared-d.module';
+import { AppErrorHandler } from './ngx-error/app-error-handler';
 
 // Provider module.
 // このNgModuleは、ルートNgModuleによってのみNg importsされることを意図している
@@ -19,5 +20,8 @@ import { SharedDModule } from '../shared-d/shared-d.module';
     BrowserModule,
     BrowserAnimationsModule,
   ],
+  providers: [
+    { provide: ErrorHandler, useClass: AppErrorHandler },
+  ]
 })
 export class SharedPModule { }

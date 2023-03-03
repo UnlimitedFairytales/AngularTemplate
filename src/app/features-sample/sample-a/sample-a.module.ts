@@ -4,10 +4,12 @@ import { FeaturesSampleModule } from '../features-sample.module';
 
 import { SampleARoutingModule } from './sample-a-routing.module';
 import { SampleA1Component } from './sample-a1/sample-a1.component';
+import { SampleA2Component } from './sample-a2/sample-a2.component';
 
 @NgModule({
   declarations: [
-    SampleA1Component
+    SampleA1Component,
+    SampleA2Component
   ],
   imports: [
     SharedDModule,

@@ -1,0 +1,13 @@
+<p>sample-a2 works!</p>
+<app-sample-links></app-sample-links>
+<div>
+  <button type="button" class="btn btn-danger" (click)="throwError_click()">
+    <i class="fab fa-angular"></i> throw Error
+  </button>
+  <button type="button" class="btn btn-danger" (click)="throwTimeoutErrorViaObservable_click()">
+    <i class="fab fa-angular"></i> throw TimeoutError via Observable
+  </button>
+  <button type="button" class="btn btn-danger" (click)="throwTimeoutErrorViaPromise_clickAsync()">
+    <i class="fab fa-angular"></i> throw TimeoutError via Promise
+  </button>
+</div>
