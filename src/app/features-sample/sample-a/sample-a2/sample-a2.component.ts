@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { from, lastValueFrom, timeout } from 'rxjs';
 import { AppAjaxService } from 'src/app/shared-p/ngx-http/app-ajax.service';
 import { AppAnimations } from 'src/app/utils/ngx/app-animations';
+import { AppMessageBoxButton, AppMessageBoxService } from 'src/app/shared-p/bs-wrapper/app-message-box.service';
 
 @Component({
   selector: 'app-sample-a2',
@@ -11,7 +12,9 @@ import { AppAnimations } from 'src/app/utils/ngx/app-animations';
 })
 export class SampleA2Component {
 
-  constructor(private appAjaxService: AppAjaxService) { }
+  constructor(
+    private appAjaxService: AppAjaxService,
+    private appMessageBoxService: AppMessageBoxService) { }
 
   throwError_click(): void {
     throw new Error('Error example.');
@@ -55,5 +58,19 @@ export class SampleA2Component {
   isOpen2 = false;
   changeIsOpen2_click(): void {
     this.isOpen2 = !this.isOpen2;
+  }
+
+  async showMessageBox1_clickAsync(): Promise<void> {
+    const result = await this.appMessageBoxService.showAsync('message box sample!');
+    console.log(result === 0 ? 'OK!' : 'CANCEL!');
+  }
+
+  async showMessageBox2_clickAsync(): Promise<void> {
+    const buttons: AppMessageBoxButton[] = [
+      { name: 'Yes', cssClass: 'btn-primary' },
+      { name: 'No', cssClass: 'btn-default' }
+    ];
+    const result = await this.appMessageBoxService.showAsync('message box sample!', 'YEAH!!!!', buttons);
+    console.log(result === 0 ? 'Yes!' : 'No or Cancel!');
   }
 }

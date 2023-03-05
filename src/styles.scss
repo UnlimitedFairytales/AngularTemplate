@@ -1,6 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
 
+/* app base colors */
+$app-color: #242535;
+$app-color-bg: white;
+$app-negative-color: white;
+$app-negative-color-bg: #1f4b6a;
+
 /* Importing Bootstrap SCSS file. */
+$modal-inner-padding: 0.4rem;
+$modal-header-padding-y: 0.1rem;
+$modal-footer-border-width: 0;
+$btn-close-color: $app-negative-color;
 @import "./node_modules/bootstrap/scss/bootstrap";
 
 /* Importing Datepicker SCSS file. */
@@ -15,4 +25,13 @@
 
 .btn-default {
   @include button-variant(#f6f6f6, #D0CDC7, #343a40)
+}
+
+@mixin app-colors($color, $bg) {
+  color: $color;
+  background-color: $bg;
+}
+
+.app-message-box-caption {
+  @include app-colors($app-negative-color, $app-negative-color-bg);
 }

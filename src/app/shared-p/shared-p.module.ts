@@ -9,6 +9,10 @@ import { AppErrorHandler } from './ngx-error/app-error-handler';
 import { AppAjaxService, APP_AJAX_RETRY_COUNT, APP_AJAX_RETRY_DELAY_SEC, APP_AJAX_SERVER_URL } from './ngx-http/app-ajax.service';
 import { AppTimeoutInterceptor, APP_HTTP_TIMEOUT_SEC } from './ngx-http/app-timeout-interceptor';
 
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { AppMessageBoxService } from './bs-wrapper/app-message-box.service';
+import { AppMessageBoxComponent } from './bs-wrapper/app-message-box/app-message-box.component';
+
 // Provider module.
 // このNgModuleは、ルートNgModuleによってのみNg importsされることを意図している
 // DI要約：このNgModuleにproviderを明示すればシングルトン共有される
@@ -19,7 +23,11 @@ import { AppTimeoutInterceptor, APP_HTTP_TIMEOUT_SEC } from './ngx-http/app-time
 // 4. @Injectable({ providedIn: 'root' })は、初めて使用される際にルートInjectorに登録される（lazy loadingされてもルートInjectorに登録される）
 @NgModule({
   imports: [
-    SharedDModule
+    SharedDModule,
+    ModalModule.forRoot(), // provide BsModalService, ComponentLoaderFactory, PositioningService
+  ],
+  declarations: [
+    AppMessageBoxComponent
   ],
   exports: [
     BrowserModule,
@@ -37,7 +45,9 @@ import { AppTimeoutInterceptor, APP_HTTP_TIMEOUT_SEC } from './ngx-http/app-time
     AppAjaxService,
     { provide: APP_AJAX_SERVER_URL, useValue: appconfig.appAjaxServerUrl },
     { provide: APP_AJAX_RETRY_COUNT, useValue: appconfig.appAjaxRetryCount },
-    { provide: APP_AJAX_RETRY_DELAY_SEC, useValue: appconfig.appAjaxRetryDelay_sec }
+    { provide: APP_AJAX_RETRY_DELAY_SEC, useValue: appconfig.appAjaxRetryDelay_sec },
+
+    AppMessageBoxService,
   ]
 })
 export class SharedPModule { }
