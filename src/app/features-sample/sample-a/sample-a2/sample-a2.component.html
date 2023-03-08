@@ -1,6 +1,6 @@
 <p>sample-a2 works!</p>
 <app-sample-links></app-sample-links>
-<div>
+<div [@slowOpenClose]="isOpen1 ? 'open' : 'closed'">
   <button type="button" class="btn btn-danger" (click)="throwError_click()">
     <i class="fab fa-angular"></i> throw Error
   </button>
@@ -11,11 +11,19 @@
     <i class="fab fa-angular"></i> throw TimeoutError via Promise
   </button>
 </div>
-<div>
+<div [@fastOpenClose]="isOpen2 ? 'open' : 'closed'">
   <button type="button" class="btn btn-success" (click)="xhrGet_clickAsync()">
     <i class="fab fa-angular"></i> xhr get
   </button>
   <button type="button" class="btn btn-success" (click)="xhrPost_clickAsync()">
     <i class="fab fa-angular"></i> xhr post
+  </button>
+</div>
+<div>
+  <button type="button" class="btn btn-secondary" (click)="changeIsOpen1_click()">
+    <i class="fab fa-angular"></i> change isOpen1
+  </button>
+  <button type="button" class="btn btn-secondary" (click)="changeIsOpen2_click()">
+    <i class="fab fa-angular"></i> change isOpen2
   </button>
 </div>
