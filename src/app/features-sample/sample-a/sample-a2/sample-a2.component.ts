@@ -5,6 +5,7 @@ import { AppAnimations } from 'src/app/utils/ngx/app-animations';
 import { AppMessageBoxButton, AppMessageBoxService } from 'src/app/shared-p/bs-wrapper/app-message-box.service';
 import { AppModalService } from 'src/app/shared-p/bs-wrapper/app-modal.service';
 import { SampleA2DialogComponent } from './sample-a2-dialog/sample-a2-dialog.component';
+import { Debounce } from 'src/app/utils/decorators/debounce';
 
 @Component({
   selector: 'app-sample-a2',
@@ -80,5 +81,10 @@ export class SampleA2Component {
   async showModal_clickAsync(): Promise<void> {
     const result = await this.appModalService.showAsync(SampleA2DialogComponent, { value: 'FOO!!' });
     console.log(result);
+  }
+
+  @Debounce(1000)
+  debounce_click(): void {
+    console.log('debounce_click called!');
   }
 }
