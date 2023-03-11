@@ -15,6 +15,7 @@ import { AppMessageBoxComponent } from './bs-wrapper/app-message-box/app-message
 import { AppModalService } from './bs-wrapper/app-modal.service';
 import { AppLocaleService } from "./locale/app-locale.service";
 import { AppValidators } from "./ngx-form/app-validators";
+import { StubAjaxService } from "../configuration/teststub/stub-ajax.service";
 
 // Provider module.
 // このNgModuleは、ルートNgModuleによってのみNg importsされることを意図している
@@ -45,7 +46,7 @@ import { AppValidators } from "./ngx-form/app-validators";
 
     FormBuilder,
 
-    AppAjaxService,
+    { provide: AppAjaxService, useClass: appconfig.DEBUG_STUB_HTTP_CLIENT_MODE ? StubAjaxService : AppAjaxService },
     { provide: APP_AJAX_SERVER_URL, useValue: appconfig.appAjaxServerUrl },
     { provide: APP_AJAX_RETRY_COUNT, useValue: appconfig.appAjaxRetryCount },
     { provide: APP_AJAX_RETRY_DELAY_SEC, useValue: appconfig.appAjaxRetryDelay_sec },
