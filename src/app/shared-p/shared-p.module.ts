@@ -17,6 +17,7 @@ import { AppLocaleService } from "./locale/app-locale.service";
 import { AppValidators } from "./ngx-form/app-validators";
 import { StubAjaxService } from "../configuration/teststub/stub-ajax.service";
 import { AppLoginDialogComponent, APP_LOGIN_DIALOG_COMPONENT_INITIAL_DATA } from "./auth/app-login-dialog/app-login-dialog.component";
+import { AppAuthService, APP_AUTH_ENDPOINTS } from "./auth/app-auth.service";
 
 // Provider module.
 // このNgModuleは、ルートNgModuleによってのみNg importsされることを意図している
@@ -58,7 +59,9 @@ import { AppLoginDialogComponent, APP_LOGIN_DIALOG_COMPONENT_INITIAL_DATA } from
     AppLocaleService,
     AppValidators,
 
-    { provide: APP_LOGIN_DIALOG_COMPONENT_INITIAL_DATA, useValue: appconfig.appLoginDialogComponentInitialData }
+    { provide: APP_LOGIN_DIALOG_COMPONENT_INITIAL_DATA, useValue: appconfig.appLoginDialogComponentInitialData },
+    AppAuthService,
+    { provide: APP_AUTH_ENDPOINTS, useValue: appconfig.appAuthEndpoints },
   ]
 })
 export class SharedPModule { }

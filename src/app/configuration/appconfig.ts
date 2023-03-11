@@ -12,4 +12,10 @@ export const appconfig = {
     endpoint_Login: 'Login/Login',
     hasCloseButton: false
   },
+
+  appAuthEndpoints: {
+    isLoggedin: 'Auth/IsLoggedin',
+    getLoggedinUserInfo: 'Auth/GetLoggedinUserInfo',
+    isAuthorizedPage: 'Auth/IsAuthorizedPage',
+  },
 };

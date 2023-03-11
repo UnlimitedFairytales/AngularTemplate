@@ -4,24 +4,28 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { MonoTypeOperatorFunction } from 'rxjs';
+import { AppAuthEndpoints, APP_AUTH_ENDPOINTS, IsAuthorizedPageResult, IsLoggedinResult, LoggedinUserInfoResult } from 'src/app/shared-p/auth/app-auth.service';
 import { AppLoginDialogComponentInitialData, APP_LOGIN_DIALOG_COMPONENT_INITIAL_DATA } from 'src/app/shared-p/auth/app-login-dialog/app-login-dialog.component';
 import { AppAjaxService, APP_AJAX_SERVER_URL, options_body_blob, options_body_json } from 'src/app/shared-p/ngx-http/app-ajax.service';
+import { AppObject } from 'src/app/utils/helpers/app-object';
 import { AppPromise } from 'src/app/utils/helpers/app-promise';
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
-type UserInfo = { User: { UserId: number, UserCd: string, UserName: string }, AuthorityList?: string[], IsDevelopMode?: number }
+type UserInfo = { User: { UserId: number, UserCd: string, UserName: string }, AuthorityList?: string[], AuthorizedPageCdList?: string[], IsDevelopMode?: number }
 
 @Injectable()
 export class StubAjaxService extends AppAjaxService {
 
   private loggedinUserInfo?: UserInfo;
-  private readonly userInfo1 = { User: { UserId: 1, UserCd: 'USER01', UserName: '名無しの権兵衛' } };
-  private readonly userInfo2 = { User: { UserId: 2, UserCd: 'USER02', UserName: '初接続 パスワード設定' } };
-  private readonly userInfo3 = { User: { UserId: 3, UserCd: 'USER03', UserName: 'パスワード設定時にエラーを返す' } };
+  private readonly authorizedPageCdList1 = ['sample-a1', 'sample-a2', 'sample-b1'];
+  private readonly userInfo1 = { User: { UserId: 1, UserCd: 'USER01', UserName: '名無しの権兵衛' }, AuthorizedPageCdList: this.authorizedPageCdList1 };
+  private readonly userInfo2 = { User: { UserId: 2, UserCd: 'USER02', UserName: '初接続 パスワード設定' }, AuthorizedPageCdList: this.authorizedPageCdList1 };
+  private readonly userInfo3 = { User: { UserId: 3, UserCd: 'USER03', UserName: 'パスワード設定時にエラーを返す' }, AuthorizedPageCdList: this.authorizedPageCdList1 };
 
   constructor(
     @Inject(APP_AJAX_SERVER_URL) appAjaxServerUrl: string,
-    @Inject(APP_LOGIN_DIALOG_COMPONENT_INITIAL_DATA) protected appLoginDialogComponentInitialData: AppLoginDialogComponentInitialData) {
+    @Inject(APP_LOGIN_DIALOG_COMPONENT_INITIAL_DATA) protected appLoginDialogComponentInitialData: AppLoginDialogComponentInitialData,
+    @Inject(APP_AUTH_ENDPOINTS) protected appAuthEndpoints: AppAuthEndpoints) {
     super(appAjaxServerUrl, 0, 0, HttpClient.prototype);
   }
 
@@ -81,6 +85,24 @@ export class StubAjaxService extends AppAjaxService {
         return { MessageId: undefined };
       }
       return { MessageId: 'W5001' }
+    }
+
+    // AppAuthService
+    if (url === `${this.appAjaxServerUrl}${this.appAuthEndpoints.isLoggedin}`) {
+      const r: IsLoggedinResult = { MessageId: undefined, IsLoggedin: AppObject.isNullish(this.loggedinUserInfo) ? 0 : 1 };
+      return r;
+    }
+    if (url === `${this.appAjaxServerUrl}${this.appAuthEndpoints.getLoggedinUserInfo}`) {
+      const r: LoggedinUserInfoResult<UserInfo> = this.loggedinUserInfo ? { MessageId: undefined, UserInfo: AppObject.clone(this.loggedinUserInfo) } : { MessageId: undefined, UserInfo: undefined };
+      return r;
+    }
+    if (url === `${this.appAjaxServerUrl}${this.appAuthEndpoints.isAuthorizedPage}`) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      if (this.loggedinUserInfo?.AuthorizedPageCdList?.includes(body?.PageCd)) {
+        const r: IsAuthorizedPageResult = { MessageId: undefined, IsAuthorizedPage: 1 };
+        return r;
+      }
+      return { MessageId: 'W5005', IsAuthorizedPage: 0 };
     }
 
     throw new Error(`no stub endpoint (stub-ajax.service.ts) : ${url}`);
