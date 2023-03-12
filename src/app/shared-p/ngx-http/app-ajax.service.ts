@@ -8,6 +8,9 @@ import { lastValueFrom, MonoTypeOperatorFunction, Observable, retry, TimeoutErro
 import { AppObject } from 'src/app/utils/helpers/app-object';
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+export type AppJsonResult = { MessageId?: string }
+
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 type optionsCommon = {
   headers?: HttpHeaders | { [header: string]: string | string[]; };
   context?: HttpContext;

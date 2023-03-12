@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { from, lastValueFrom, timeout } from 'rxjs';
 import { AppAjaxService } from 'src/app/shared-p/ngx-http/app-ajax.service';
 import { AppAnimations } from 'src/app/utils/ngx/app-animations';
@@ -11,6 +11,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { AppIsSaved } from 'src/app/shared-p/ngx-guard/app-is-saved';
 import { AppObject } from 'src/app/utils/helpers/app-object';
 import { AppValidators } from 'src/app/shared-p/ngx-form/app-validators';
+import { AppLoginDialogComponent, AppLoginDialogComponentInitialData, APP_LOGIN_DIALOG_COMPONENT_INITIAL_DATA } from 'src/app/shared-p/auth/app-login-dialog/app-login-dialog.component';
 
 @Component({
   selector: 'app-sample-a2',
@@ -30,7 +31,8 @@ export class SampleA2Component implements AppIsSaved {
     private appModalService: AppModalService,
     private appLocaleService: AppLocaleService,
     private formBuilder: FormBuilder,
-    private appValidators: AppValidators) {
+    private appValidators: AppValidators,
+    @Inject(APP_LOGIN_DIALOG_COMPONENT_INITIAL_DATA) private appLoginDialogComponentInitialData: AppLoginDialogComponentInitialData) {
 
     const l = appLocaleService;
     const var2 = 'C0003';
@@ -145,5 +147,12 @@ export class SampleA2Component implements AppIsSaved {
 
   async validateAllAsync(): Promise<void> {
     if (await this.appValidators.hasErrorAsync(this.form)) return;
+  }
+
+  async showLoginDialogAsync(): Promise<void> {
+    const cloned = Object.assign({}, this.appLoginDialogComponentInitialData);
+    cloned.hasCloseButton = true;
+    const result = await this.appModalService.showAsync(AppLoginDialogComponent, cloned);
+    console.log(result);
   }
 }

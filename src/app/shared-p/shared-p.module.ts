@@ -16,6 +16,7 @@ import { AppModalService } from './bs-wrapper/app-modal.service';
 import { AppLocaleService } from "./locale/app-locale.service";
 import { AppValidators } from "./ngx-form/app-validators";
 import { StubAjaxService } from "../configuration/teststub/stub-ajax.service";
+import { AppLoginDialogComponent, APP_LOGIN_DIALOG_COMPONENT_INITIAL_DATA } from "./auth/app-login-dialog/app-login-dialog.component";
 
 // Provider module.
 // このNgModuleは、ルートNgModuleによってのみNg importsされることを意図している
@@ -31,7 +32,8 @@ import { StubAjaxService } from "../configuration/teststub/stub-ajax.service";
     ModalModule.forRoot(), // provide BsModalService, ComponentLoaderFactory, PositioningService
   ],
   declarations: [
-    AppMessageBoxComponent
+    AppMessageBoxComponent,
+    AppLoginDialogComponent
   ],
   exports: [
     BrowserModule,
@@ -55,6 +57,8 @@ import { StubAjaxService } from "../configuration/teststub/stub-ajax.service";
     AppModalService,
     AppLocaleService,
     AppValidators,
+
+    { provide: APP_LOGIN_DIALOG_COMPONENT_INITIAL_DATA, useValue: appconfig.appLoginDialogComponentInitialData }
   ]
 })
 export class SharedPModule { }

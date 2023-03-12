@@ -1,0 +1,34 @@
+<!-- https://getbootstrap.jp/docs/5.0/components/modal/#modal-components -->
+<!-- https://getbootstrap.jp/docs/5.0/forms/input-group/ -->
+<!-- https://getbootstrap.jp/docs/5.0/forms/form-control/ -->
+<!-- https://valor-software.com/ngx-bootstrap/#/components/modals?tab=overview -->
+<div class="modal-header app-dialog-caption">
+  <h6 class="modal-title" style="float:left">{{ 'LOGIN.Title' | appLocaleText }}</h6>
+  <button *ngIf="initialData?.hasCloseButton" type="button" class="btn-close" style="float:right" aria-label="Close"
+    (click)="close()"></button>
+</div>
+<div class="modal-body px-4 pt-4">
+  <form [formGroup]="loginForm">
+    <div class="input-group my-2">
+      <label for="UserCd" class="input-group-text w-25">{{ 'LOGIN.UserCd' | appLocaleText }}</label>
+      <input type="text" class="form-control" id="UserCd" formControlName="UserCd" appValidate [readonly]="isStep2">
+    </div>
+    <div class="input-group my-2" [@openClose]="isStep2 ? 'open' : 'closed'">
+      <label for="Password" class="input-group-text w-25">{{ 'LOGIN.Password' | appLocaleText }}</label>
+      <input type="password" class="form-control" id="Password" formControlName="Password" appValidate>
+    </div>
+    <div *ngIf="isResetPass" class="my-2">
+      <small class="form-text">{{ 'LOGIN.SetPasswordText' | appLocaleText }}</small>
+    </div>
+    <div class="my-2">
+      Info : <span *ngIf="errorMessage" class="form-text text-danger">{{ errorMessage }}</span>
+    </div>
+  </form>
+</div>
+<div class="modal-footer justify-content-between">
+  <button type="button" class="btn btn-primary" (click)="back()" [disabled]="isStep1">
+    {{ 'LOGIN.Back' | appLocaleText }}
+  </button>
+  <button type="button" class="btn btn-primary" (click)="doAsync()">{{ (isResetPass ? 'LOGIN.SetPassword' :
+    'LOGIN.LoginButton') | appLocaleText }}</button>
+</div>

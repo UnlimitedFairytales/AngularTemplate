@@ -39,5 +39,14 @@ export const EnusTexts = {
     LABEL: {
       INCLUDE: 'include',
     },
+  },
+  LOGIN: {
+    Title: 'Login',
+    UserCd: 'User Code',
+    Back: 'Back',
+    Password: 'Password',
+    SetPasswordText: 'Prease set password',
+    SetPassword: 'Set password',
+    LoginButton: 'Login',
   }
 }

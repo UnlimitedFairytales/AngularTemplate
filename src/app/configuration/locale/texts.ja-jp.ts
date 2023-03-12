@@ -39,5 +39,14 @@ export const JajpTexts = {
     LABEL: {
       INCLUDE: 'を含む',
     },
+  },
+  LOGIN: {
+    Title: 'ログイン',
+    UserCd: 'ユーザコード',
+    Back: '戻る',
+    Password: 'パスワード',
+    SetPasswordText: '初回ログインのため、パスワードを設定してください',
+    SetPassword: 'パスワード設定',
+    LoginButton: 'ログイン',
   }
 }

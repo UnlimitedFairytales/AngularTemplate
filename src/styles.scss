@@ -36,6 +36,10 @@ $btn-close-color: $app-negative-color;
   @include app-colors($app-negative-color, $app-negative-color-bg);
 }
 
+.app-dialog-caption {
+  @include app-colors($app-negative-color, $app-negative-color-bg);
+}
+
 // https://getbootstrap.jp/docs/5.0/components/tooltips/
 // https://valor-software.com/ngx-bootstrap/#/components/tooltip?tab=overview
 .app-validate-invalid {

@@ -5,4 +5,11 @@ export const appconfig = {
   appAjaxServerUrl: 'http://localhost:4200/Api/',
   appAjaxRetryCount: 2,
   appAjaxRetryDelay_sec: 5,
+
+  appLoginDialogComponentInitialData: {
+    endpoint_GetDialogMode: 'Login/GetDialogMode',
+    endpoint_SetUserPassword: 'Login/SetUserPassword',
+    endpoint_Login: 'Login/Login',
+    hasCloseButton: false
+  },
 };
