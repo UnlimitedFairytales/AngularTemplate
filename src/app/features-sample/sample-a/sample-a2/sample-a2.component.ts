@@ -28,6 +28,13 @@ export class SampleA2Component implements AppIsSaved {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   orgData: any;
   bsDatepickerConfig: BsDatepickerConfig;
+  fruitsList = ([
+    { 'Id': 1, 'Name': 'Apple', 'SortNum': 100 },
+    { 'Id': 2, 'Name': 'Banana', 'SortNum': 200 },
+    { 'Id': 3, 'Name': 'Cherry', 'SortNum': 300 },
+    { 'Id': 4, 'Name': 'Durian', 'SortNum': 400 },
+    { 'Id': 5, 'Name': 'Citrus', 'SortNum': 0 },
+  ]).sort((a, b) => a.SortNum - b.SortNum);
 
   constructor(
     private appAjaxService: AppAjaxService,
@@ -57,6 +64,7 @@ export class SampleA2Component implements AppIsSaved {
         console.log(c.value);
         return AppDate.isYYYYMMDDLike(c.value, 'yyyyMMdd') ? null : l.msg('W2017');
       })]],
+      ngSelect____: [{ value: null, disabled: false }, null],
     });
     this.orgData = this.form.getRawValue();
     this.bsDatepickerConfig = Object.assign(AppBsDatepickerConfig.getConfigBase_Day(), {
@@ -158,6 +166,7 @@ export class SampleA2Component implements AppIsSaved {
   }
 
   async validateAllAsync(): Promise<void> {
+    console.log(this.form.value);
     if (await this.appValidators.hasErrorAsync(this.form)) return;
   }
 

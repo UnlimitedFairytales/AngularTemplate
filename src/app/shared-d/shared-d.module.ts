@@ -16,6 +16,9 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
+
+import { NgSelectModule } from '@ng-select/ng-select';
+
 import { AppLocaleTextPipe } from './locale/app-locale-text.pipe';
 import { ValidateDirective } from './ngx-form/validate.directive';
 import { DatepickerExDirective } from './bs-wrapper/datepicker-ex.directive';
@@ -47,6 +50,8 @@ import { DatepickerExDirective } from './bs-wrapper/datepicker-ex.directive';
     TimepickerModule,
     TooltipModule,
     TypeaheadModule,
+
+    NgSelectModule,
 
     AppLocaleTextPipe,
     ValidateDirective,

@@ -19,6 +19,9 @@ $btn-close-color: $app-negative-color;
 /* Importing fortawesome CSS file. */
 @import "node_modules/@fortawesome/fontawesome-free/css/all.min.css";
 
+/* Importing ng-select SCSS file. */
+@import "node_modules/@ng-select/ng-select/scss/default.theme";
+
 .btn-cta {
   @include button-variant(#ffa41c, #fa8900, #121418);
 }
