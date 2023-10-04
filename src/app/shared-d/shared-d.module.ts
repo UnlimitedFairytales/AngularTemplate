@@ -23,6 +23,8 @@ import { AppLocaleTextPipe } from './locale/app-locale-text.pipe';
 import { ValidateDirective } from './ngx-form/validate.directive';
 import { DatepickerExDirective } from './bs-wrapper/datepicker-ex.directive';
 
+import { AgGridModule } from 'ag-grid-angular';
+
 // Declarable module.
 // このNgModuleは、全てのNgModuleでNg importsされることを意図している
 @NgModule({
@@ -56,6 +58,8 @@ import { DatepickerExDirective } from './bs-wrapper/datepicker-ex.directive';
     AppLocaleTextPipe,
     ValidateDirective,
     DatepickerExDirective,
+
+    AgGridModule,
   ],
 })
 export class SharedDModule { }

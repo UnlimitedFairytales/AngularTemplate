@@ -77,6 +77,20 @@
     <ng-select formControlName="ngSelect____" [items]="fruitsList" bindLabel="Name" bindValue="Id"
       style="width:10rem;"></ng-select>
   </div>
+  <!-- https://www.ag-grid.com/angular-data-grid/getting-started/ -->
+  <!-- ag-theme-alpine, ag-theme-alpine-dark, ag-theme-balham, ag-theme-balham-dark, ag-theme-material -->
+  <div>
+    <div>grid1</div>
+    <ag-grid-angular style="width: 605px; height: 200px;" class="ag-theme-alpine" [rowData]="rowData"
+      [columnDefs]="columnDefs">
+    </ag-grid-angular>
+  </div>
+  <div>
+    <div>grid2</div>
+    <ag-grid-angular style="width: 605px; height: 200px;" class="ag-theme-balham" [gridOptions]="grid2GridOptions"
+      (gridReady)="grid2_onGridReady($event)">
+    </ag-grid-angular>
+  </div>
   <div>
     <button type="button" class="btn btn-secondary" (click)="validateAllAsync()">
       <i class="fab fa-angular"></i> validate all

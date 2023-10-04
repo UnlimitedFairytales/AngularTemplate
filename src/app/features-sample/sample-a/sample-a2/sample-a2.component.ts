@@ -15,6 +15,7 @@ import { AppLoginDialogComponent, AppLoginDialogComponentInitialData, APP_LOGIN_
 import { BsDatepickerConfig, BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { AppBsDatepickerConfig } from 'src/app/utils/ngx-bootstrap-helpers/app-bs-datepicker.config';
 import { AppDate } from 'src/app/utils/helpers/app-date';
+import { ColDef, ColumnApi, GridApi, GridOptions, GridReadyEvent } from 'ag-grid-community';
 
 @Component({
   selector: 'app-sample-a2',
@@ -35,6 +36,24 @@ export class SampleA2Component implements AppIsSaved {
     { 'Id': 4, 'Name': 'Durian', 'SortNum': 400 },
     { 'Id': 5, 'Name': 'Citrus', 'SortNum': 0 },
   ]).sort((a, b) => a.SortNum - b.SortNum);
+
+  columnDefs: ColDef[] = [
+    { field: 'make' },
+    { field: 'model' },
+    { field: 'price' }
+  ];
+  rowData = [
+    { make: 'Toyota', model: 'Celica', price: 35000 },
+    { make: 'Ford', model: 'Mondeo', price: 32000 },
+    { make: 'Porsche', model: 'Boxster', price: 72000 },
+    { make: undefined, model: undefined, price: undefined },
+    { make: 'Dummy', model: 'Unknown', price: 30000 },
+    { make: 'Dummy', model: 'Unknown', price: 30000 },
+    { make: 'Dummy', model: 'Unknown', price: 30000 },
+    { make: 'Dummy', model: 'Unknown', price: 30000 },
+    { make: 'Dummy', model: 'Unknown', price: 30000 },
+    { make: 'Dummy', model: 'Unknown', price: 30000 }
+  ];
 
   constructor(
     private appAjaxService: AppAjaxService,
@@ -71,6 +90,7 @@ export class SampleA2Component implements AppIsSaved {
       minDate: new Date('2020-04-01'),
       maxDate: new Date('2030-03-31')
     });
+    this.grid2GridOptions = this.createGrid2GridOptions();
   }
 
   /* implements AppIsSaved */
@@ -175,5 +195,56 @@ export class SampleA2Component implements AppIsSaved {
     cloned.hasCloseButton = true;
     const result = await this.appModalService.showAsync(AppLoginDialogComponent, cloned);
     console.log(result);
+  }
+
+  // https://stackoverflow.com/questions/65126992/aggrid-does-ongridready-fall-into-line-with-angular-hooks
+  // https://www.ag-grid.com/javascript-data-grid/grid-options/
+  // 要約：constructorでGridOptionsを初期化、gridReady以降でGridApiを使用
+  // 1. 初期化順は、constructor > @Input > ngOnInit() > onGridReady()
+  // 2. GridApiが使用可能になるのはonGridReadyから
+  grid2GridOptions: GridOptions;
+  private createGrid2GridOptions(): GridOptions {
+    const options = {} as GridOptions;
+    /* Community */
+    options.animateRows = true;
+    options.columnDefs = AppObject.clone(this.columnDefs);
+    options.defaultColDef = {
+      editable: false,
+      filter: true,
+      /* Enterprise */
+      // menuTabs: ['filterMenuTab'],
+      resizable: true,
+      sortable: true,
+      cellStyle: (params) => {
+        if (!AppObject.isNullish(params.data.price) && 50000 <= params.data.price) {
+          return { backgroundColor: 'lavenderblush' }
+        }
+        return { backgroundColor: 'white' }
+      }
+    };
+    // options.domLayout = 'autoHeight';
+    options.headerHeight = 24;
+    // options.localeText = ...;
+    options.rowHeight = 24;
+    options.rowMultiSelectWithClick = true;
+    options.rowSelection = 'multiple';
+    options.suppressDragLeaveHidesColumns = true;
+    options.suppressMovableColumns = false;
+    options.suppressPaginationPanel = true;
+    options.suppressRowClickSelection = true;
+    /* Enterprise */
+    // options.enableRangeSelection = true;
+    // options.excelStyles = ...
+    // options.sideBar = ...;
+    // options.suppressContextMenu = true;
+    return options;
+  }
+  grid2GridApi!: GridApi;
+  grid2ColumnApi!: ColumnApi;
+  grid2_onGridReady(params: GridReadyEvent) {
+    this.grid2GridApi = params.api;
+    this.grid2ColumnApi = params.columnApi;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    this.grid2GridApi.setRowData(AppObject.clone(this.rowData)!);
   }
 }

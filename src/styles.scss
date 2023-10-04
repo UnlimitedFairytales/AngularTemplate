@@ -22,6 +22,12 @@ $btn-close-color: $app-negative-color;
 /* Importing ng-select SCSS file. */
 @import "node_modules/@ng-select/ng-select/scss/default.theme";
 
+/* Importing ag-grid CSS file. */
+/* https://www.ag-grid.com/javascript-data-grid/themes/ */
+@import 'ag-grid-community/styles/ag-grid.css';
+@import 'ag-grid-community/styles/ag-theme-alpine.css';
+@import 'ag-grid-community/styles/ag-theme-balham.css';
+
 .btn-cta {
   @include button-variant(#ffa41c, #fa8900, #121418);
 }
