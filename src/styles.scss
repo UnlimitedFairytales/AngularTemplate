@@ -56,6 +56,18 @@ $btn-close-color: $app-negative-color;
   outline: 2px solid rgba($danger, 0.2);
 }
 
+.ag-theme-balham {
+  .ag-ltr {
+    :not(.ag-has-focus) {
+      .ag-cell {
+        &.app-validate-invalid {
+          border-right: 1px solid $danger;
+        }
+      }
+    }
+  }
+}
+
 .app-validate {
   .tooltip-inner {
     max-width: 320px;

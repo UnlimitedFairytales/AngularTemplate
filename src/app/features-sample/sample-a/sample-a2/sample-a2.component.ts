@@ -16,6 +16,7 @@ import { BsDatepickerConfig, BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { AppBsDatepickerConfig } from 'src/app/utils/ngx-bootstrap-helpers/app-bs-datepicker.config';
 import { AppDate } from 'src/app/utils/helpers/app-date';
 import { ColDef, ColumnApi, GridApi, GridOptions, GridReadyEvent } from 'ag-grid-community';
+import { AppAgGridValidationBinder, CommonParams } from 'src/app/shared-p/ag-grid/app-ag-grid-validation-binder';
 
 @Component({
   selector: 'app-sample-a2',
@@ -187,7 +188,14 @@ export class SampleA2Component implements AppIsSaved {
 
   async validateAllAsync(): Promise<void> {
     console.log(this.form.value);
+    let hasError = false;
     if (await this.appValidators.hasErrorAsync(this.form)) return;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    hasError = (this.grid2GridOptions.context.validationBinder as AppAgGridValidationBinder).hasError();
+    if (hasError) {
+      const msg = this.appLocaleService.getLocaleMessage('W2000');
+      await this.appMessageBoxService.showAsync(msg, undefined, [{ name: 'OK', cssClass: 'btn-cta' }]);
+    }
   }
 
   async showLoginDialogAsync(): Promise<void> {
@@ -204,12 +212,32 @@ export class SampleA2Component implements AppIsSaved {
   // 2. GridApiが使用可能になるのはonGridReadyから
   grid2GridOptions: GridOptions;
   private createGrid2GridOptions(): GridOptions {
+    const l = this.appLocaleService;
     const options = {} as GridOptions;
     /* Community */
     options.animateRows = true;
-    options.columnDefs = AppObject.clone(this.columnDefs);
+    const colDefs = [
+      {
+        field: 'make',
+        cellRendererParams: {
+          validators: [{
+            func: (params: CommonParams) => {
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
+              return AppValidators.other(ctrl => {
+                // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                console.log(`row=${params.rowIndex ?? '?'}, col=${params.colDef?.field ?? '?'}, value=${params.value}`);
+                return AppObject.isNullish(ctrl.value) ? l.msg('W2001') : null;
+              });
+            }
+          }]
+        }
+      },
+      { field: 'model', cellRendererParams: { validators: [AppValidators.required(l.msg('W2001'))] } },
+      { field: 'price', cellRendererParams: { validators: [AppValidators.required(l.msg('W2001')), AppValidators.min(l.msg('W2010', [30000]), 30000)] } }
+    ];
+    options.columnDefs = colDefs;
     options.defaultColDef = {
-      editable: false,
+      editable: true,
       filter: true,
       /* Enterprise */
       // menuTabs: ['filterMenuTab'],
@@ -237,6 +265,10 @@ export class SampleA2Component implements AppIsSaved {
     // options.excelStyles = ...
     // options.sideBar = ...;
     // options.suppressContextMenu = true;
+    const binder = new AppAgGridValidationBinder(options);
+    options.context = {
+      validationBinder: binder
+    };
     return options;
   }
   grid2GridApi!: GridApi;
