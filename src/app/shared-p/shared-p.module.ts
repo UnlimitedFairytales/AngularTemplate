@@ -19,6 +19,7 @@ import { AppValidators } from "./ngx-form/app-validators";
 import { StubAjaxService } from "../configuration/teststub/stub-ajax.service";
 import { AppLoginDialogComponent, APP_LOGIN_DIALOG_COMPONENT_INITIAL_DATA } from "./auth/app-login-dialog/app-login-dialog.component";
 import { AppAuthService, APP_AUTH_ENDPOINTS } from "./auth/app-auth.service";
+import { ToastrModule } from 'ngx-toastr';
 
 // Provider module.
 // このNgModuleは、ルートNgModuleによってのみNg importsされることを意図している
@@ -33,6 +34,7 @@ import { AppAuthService, APP_AUTH_ENDPOINTS } from "./auth/app-auth.service";
     SharedDModule,
     ModalModule.forRoot(), // provide BsModalService, ComponentLoaderFactory, PositioningService
     BsDatepickerModule.forRoot(), // provide ComponentLoaderFactory, PositioningService, BsDatepickerStore, BsDatepickerActions, BsDatepickerEffects, BsLocaleService, TimepickerActions
+    ToastrModule.forRoot(appconfig.toastrOptions), // provide ToastrService
   ],
   declarations: [
     AppMessageBoxComponent,

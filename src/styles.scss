@@ -28,6 +28,10 @@ $btn-close-color: $app-negative-color;
 @import 'ag-grid-community/styles/ag-theme-alpine.css';
 @import 'ag-grid-community/styles/ag-theme-balham.css';
 
+/* Importing ngx-toastr CSS file. */
+@import 'node_modules/ngx-toastr/toastr.css';
+@import 'node_modules/ngx-toastr/toastr-bs5-alert';
+
 .btn-cta {
   @include button-variant(#ffa41c, #fa8900, #121418);
 }
@@ -88,5 +92,15 @@ $btn-close-color: $app-negative-color;
 
   &.bs-tooltip-end .tooltip-arrow::before {
     border-right-color: $danger;
+  }
+}
+
+.toast-container.toast-top-center {
+
+  .ngx-toastr,
+  .toast {
+    max-width: calc(100% - 10rem);
+    min-width: 30rem;
+    width: max-content;
   }
 }

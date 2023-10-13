@@ -17,6 +17,7 @@ import { AppBsDatepickerConfig } from 'src/app/utils/ngx-bootstrap-helpers/app-b
 import { AppDate } from 'src/app/utils/helpers/app-date';
 import { ColDef, ColumnApi, GridApi, GridOptions, GridReadyEvent } from 'ag-grid-community';
 import { AppAgGridValidationBinder, CommonParams } from 'src/app/shared-p/ag-grid/app-ag-grid-validation-binder';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-sample-a2',
@@ -64,7 +65,8 @@ export class SampleA2Component implements AppIsSaved {
     private formBuilder: FormBuilder,
     private appValidators: AppValidators,
     @Inject(APP_LOGIN_DIALOG_COMPONENT_INITIAL_DATA) private appLoginDialogComponentInitialData: AppLoginDialogComponentInitialData,
-    private bsLocaleService: BsLocaleService) {
+    private bsLocaleService: BsLocaleService,
+    private toastrService: ToastrService) {
 
     const l = appLocaleService;
     const var2 = 'C0003';
@@ -278,5 +280,15 @@ export class SampleA2Component implements AppIsSaved {
     this.grid2ColumnApi = params.columnApi;
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     this.grid2GridApi.setRowData(AppObject.clone(this.rowData)!);
+  }
+
+  showSuccessToastr(): void {
+    this.toastrService.success(this.appLocaleService.msg('I0001'));
+  }
+  showWarningToastr(): void {
+    this.toastrService.warning(this.appLocaleService.msg('W2000'));
+  }
+  showErrorToastr(): void {
+    this.toastrService.error(this.appLocaleService.msg('E9999'));
   }
 }

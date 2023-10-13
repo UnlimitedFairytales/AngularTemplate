@@ -18,4 +18,10 @@ export const appconfig = {
     getLoggedinUserInfo: 'Auth/GetLoggedinUserInfo',
     isAuthorizedPage: 'Auth/IsAuthorizedPage',
   },
+
+  toastrOptions: {
+    disableTimeOut: true,
+    enableHtml: true,
+    positionClass: 'toast-top-center',
+  }
 };
