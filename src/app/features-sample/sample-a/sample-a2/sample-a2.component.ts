@@ -188,10 +188,10 @@ export class SampleA2Component implements AppIsSaved {
 
   async validateAllAsync(): Promise<void> {
     console.log(this.form.value);
-    let hasError = false;
-    if (await this.appValidators.hasErrorAsync(this.form)) return;
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    hasError = (this.grid2GridOptions.context.validationBinder as AppAgGridValidationBinder).hasError();
+    let hasError = this.appValidators.hasError([this.form]);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    hasError = (this.grid2GridOptions.context.validationBinder as AppAgGridValidationBinder).hasError() || hasError;
     if (hasError) {
       const msg = this.appLocaleService.getLocaleMessage('W2000');
       await this.appMessageBoxService.showAsync(msg, undefined, [{ name: 'OK', cssClass: 'btn-cta' }]);

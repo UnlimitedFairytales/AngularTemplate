@@ -140,24 +140,15 @@ export class AppValidators {
   /**
    * Form内にinvalidな内容があるかどうか検証します
    * @param formGroupList 検証対象
-   * @returns (awaitable) invalidがあるかどうか
+   * @returns invalidがあるかどうか
    */
-  async hasErrorAsync(...formGroupList: FormGroup[]): Promise<boolean> {
-    const result = this.hasErrorInner(formGroupList);
-    if (result) {
-      const msg = this.appLocaleService.getLocaleMessage('W2000');
-      await this.appMessageBoxService.showAsync(msg, undefined, [{ name: 'OK', cssClass: 'btn-cta' }]);
-    }
-    return result;
-  }
-
-  protected hasErrorInner(formGroupList: FormGroup[]): boolean {
+  hasError(formGroupList: FormGroup[]): boolean {
     let result = false;
     for (const formGroup of formGroupList) {
       for (const key in formGroup.controls) {
         const ctl = formGroup.controls[key];
         if (ctl instanceof FormGroup) {
-          result = this.hasErrorInner([ctl]) || result;
+          result = this.hasError([ctl]) || result;
         } else if (ctl instanceof FormArray) {
           for (const c of ctl.controls) {
             result = this.markAndValidate(c) || result;
