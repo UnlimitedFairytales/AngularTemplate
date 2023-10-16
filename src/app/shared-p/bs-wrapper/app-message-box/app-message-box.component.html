@@ -2,7 +2,7 @@
 <!-- https://getbootstrap.jp/docs/5.0/components/close-button/ -->
 <!-- https://valor-software.com/ngx-bootstrap/#/components/modals?tab=overview -->
 <div class="modal-header app-message-box-caption" *ngIf="caption && caption.length">
-  <h6 class="modal-title" style="float:left">{{ caption }}</h6>
+  <div class="modal-title" style="float:left">{{ caption }}</div>
   <button type="button" class="btn-close" style="float:right" aria-label="Close" (click)="close()"></button>
 </div>
 <div class="modal-body">

@@ -3,7 +3,7 @@
 <!-- https://getbootstrap.jp/docs/5.0/forms/form-control/ -->
 <!-- https://valor-software.com/ngx-bootstrap/#/components/modals?tab=overview -->
 <div class="modal-header app-dialog-caption">
-  <h6 class="modal-title" style="float:left">{{ 'LOGIN.Title' | appLocaleText }}</h6>
+  <div class="modal-title" style="float:left">{{ 'LOGIN.Title' | appLocaleText }}</div>
   <button *ngIf="initialData?.hasCloseButton" type="button" class="btn-close" style="float:right" aria-label="Close"
     (click)="close()"></button>
 </div>

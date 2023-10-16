@@ -104,3 +104,655 @@ $btn-close-color: $app-negative-color;
     width: max-content;
   }
 }
+
+
+
+/*
+# CSS設計プラクティス
+________________________________________________________________________________
+CSS設計完全ガイド ～詳細解説＋実践的モジュール集  
+https://gihyo.jp/book/2020/978-4-297-11173-1
+
+BEM  
+https://en.bem.info/
+
+________________________________________________________________________________
+## 1. 主なプラクティス
+________________________________________________________________________________
+### 1.0. 概要
+
+文法・概念
+
+1. ルールセットの書式（セレクタ、cssプロパティ、値）
+2. CSS詳細度（!important、インライン、id、クラス等、要素、全称）
+3. box model
+4. flex
+    - 例
+        - display: flex; flex-wrap: wrap; justify-content: center; gap: 0 1.5rem;
+    - 注意点
+        - flexアイテムがwidthを超過する場合、包含ブロックを突き抜ける
+        - 上記が発生しviewportの100%を超えている場合、無関係なposition: sticky;のモバイル挙動がおかしくなる
+5. position
+    - 例
+        - position: absolute; right: 0;
+6. @media(max-width: 767px){ ... }
+
+基本プラクティス
+
+1. cssファイルを利用する。インラインやstyle要素を避ける
+2. classセレクタ、idセレクタ、input[type="text"]など、:link、:active、:visitedを使う
+3. 結合子（親子関係など）は使いすぎない
+4. font-size指定は理由がなければremで設定
+5. !importantを避ける
+6. * { box-sizing: border-box; }する（直感的にデザイン可能になる）
+7. normalizeする。normalize.cssを使うと便利
+8. 固定ヘッダするならsticky&top。さらにページ内リンクがあるならanchor HACK
+
+目的：打ち消しCSSの最小化、CSS優先度地獄に陥らない
+
+1. cssを分類する
+2. htmlとcssが疎結合
+3. その他の細則
+
+________________________________________________________________________________
+## 1.1. cssを分類する（SMACSS like）
+
+概要
+
+- サイト全体の基本方針になる設定はhtmlやbody、BEMであれば .baseに記載する
+- layoutとmoduleは分けて考える。そしてこれら自体の粒度も細かく保つ
+    - 要約：ブロックレベル要素はlayout未指定時に横幅100％かつ上下マージン0の状態にする
+
+例
+
+1. 全体設定(base)
+    - リセットCSSまたはノーマライズCSS
+    - 通常時のフォントのスタイリング
+    - 通常時のリンクのスタイリング
+    - その他、全体の基本方針
+2. layout系のプロパティ
+    - position
+    - z-index
+    - top, right, bottom left
+    - float
+    - width(root)
+    - margin
+3. module
+    - 自身や子要素のスタイリングに責任を持つ。自身のサイズや配置は想定しない
+    - 単モジュール：ボタンなど
+    - 複合モジュール：説明・挿絵・ボタンをひとまとめにしたセクションなど
+    - structure
+        - width(child), height, border, padding, min-width, min-height...
+    - skin
+        - color, border-color, background-color...
+
+________________________________________________________________________________
+## 1.2. htmlとcssが疎結合
+
+文書の内容で変わってしまうDOM構造に依存させない。結合子を使用してよいタグセレクタは、以下のみ
+
+- li
+- dd, dt
+- thead, tbody, tr, th, td
+- input, select, option, textarea
+
+________________________________________________________________________________
+## 1.3. その他の細則
+
+- 用途の広いタグは使用しない（div、header、footer、section、p、span）
+- コンテキストを限定しすぎない（不要な結合子を避ける）
+- CSS詳細度が高すぎない（不要な結合子を避ける）
+- 影響範囲が想像できるクラス名（BEM likeの推奨）
+- 役割が想像できるクラス名（module-aなどを避ける）
+- 拡張しやすい（OOCSS like（構造（ボックスモデル）とスキン（色やradiusなど）の分離）の推奨）
+
+
+
+________________________________________________________________________________
+## 2. BEM
+________________________________________________________________________________
+### 2.1. ルール
+
+1. 書式は以下の6種類
+1.1. block-name
+1.2. block-name_modifier-state
+1.3. block-name_modifier-key_modifier-value
+1.4. block-name__element-name
+1.5. block-name__element-name_modifier-state
+1.6. block-name__element-name_modifier-key_modifier-value
+
+2. 見た目ではなく役割を命名
+OK : .error
+NG : .red-text
+
+3. クラスセレクタを使用し、タグ・IDセレクタは避ける
+OK : .header
+NG : #logo
+
+4. CSS結合子は基本的には避ける
+特に直交したBEMブロック同士はhtml側で組み合わせるべきである
+これは複雑になったときのCSS優先度の問題に直結してくる
+
+5. BEMブロックを構成する必須なBEM要素は、BEMブロック名に続ける
+OK : .search-form__input { ... }
+NG : .input { ... }
+
+6. BEM要素は、html階層に関係なくBEMブロック名に続ける
+OK : .search-form__input
+NG : .search-form__content__input
+※ 要素の要素が必要だと感じたら、サブのBEMブロックが存在することを示唆する
+
+7. BEM要素は、BEMブロックを指定した要素やその子孫にしか指定しない
+
+8. BEMブロックにBEM要素がなくてもよい
+
+9. BEM修飾子は、必ず修飾子がないBEMとセットで使用する
+言い換えると、BEM修飾子の修飾子部分のないデフォルトのBEMは必ずある
+OK : class="search-form search-form_theme_islands"
+NG : class="search-form_theme_islands"
+
+10. 1つのBEMブロックに大きすぎる責務を負わせない
+Atomicデザイン、layout&module分離などが基本的な方針
+
+________________________________________________________________________________
+### 2.2. ルールの動機
+
+1つは、CSS優先度地獄に陥らないため
+1つは、html側で複数のBEMブロックを自由に組み合わせて意味的に競合しないようにするため
+（ただし組み合わせた結果が想定したデザインになるかどうかは各BEMブロックの作り方次第）
+（もっというと、それを可能にするようにcssを宣言していくのが推奨されている）
+
+
+
+________________________________________________________________________________
+## 3. まとめ
+________________________________________________________________________________
+
+1. BEM記法を使い、BEMの考え方を採用する
+2. 各BEMブロックはSMACSS likeに分割し分類する
+3. moduleなBEMブロックはさらに、OOCSS likeに分解する
+4. レイアウトly-、スキンskn-接頭辞を使う
+*/
+
+
+
+/***************************************
+common
+***************************************/
+/************* normalize **************/
+html {
+  line-height: 1.15;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit;
+  font-size: 100%;
+  line-height: 1.15;
+  margin: 0;
+}
+
+/*********** 全体設定(base) ***********/
+/* 全体の基本方針 */
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --base-brand-color: #253958;
+  --base-mono-color: #28282f;
+  --base-bg-color: #fffefe;
+  --base-bg-color-glass: #fffefec0;
+  --base-bg-color-glass2: #fffefed0;
+  --base-link-color: #2188ff;
+}
+
+html {
+  font-size: 16px;
+  line-height: 1.8;
+  font-family: sans-serif;
+  color: var(--base-mono-color);
+  background-color: var(--base-bg-color);
+}
+
+/* リンクの基本方針 */
+a:link,
+a:visited {
+  // color: var(--base-link-color);
+  text-decoration: none;
+}
+
+a:active {
+  // color: var(--base-link-color);
+  text-decoration: underline;
+}
+
+/* 見出しの基本方針 */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 16px;
+  margin-bottom: 10px;
+}
+
+/* テーブルの基本方針 */
+.table-wrap {
+  overflow: auto;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border-bottom: 1px solid #ebebeb;
+  padding: 0 16px;
+  white-space: nowrap;
+}
+
+tr:nth-child(odd) td {
+  background-color: #fafafa;
+}
+
+th {
+  background-color: #ebebeb;
+}
+
+ol,
+ul {
+  list-style-position: inside;
+  padding-left: 0;
+}
+
+li ol,
+li ul {
+  padding-left: 40px;
+}
+
+mark {
+  color: inherit;
+  background: linear-gradient(to bottom, transparent 65%, #ffef00 66%, #ffef00 89%, transparent 90%);
+}
+
+/*********** layout blocks ************/
+/* position, z-index, top, right, bottom left, display:float, width(root), margin */
+.ly-flex-container-100vh {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.ly-flex-1 {
+  flex: 1;
+}
+
+.ly-sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* 実際に配置されるためには、widthが適切に指定される必要があります。 */
+.ly-box-centering {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* 実際に配置されるためには、widthが適切に指定される必要があります。 */
+.ly-box-right {
+  margin-left: auto;
+  margin-right: 0;
+}
+
+.ly-absolute-left {
+  position: absolute;
+  left: 0;
+}
+
+.ly-absolute-right {
+  position: absolute;
+  right: 0;
+}
+
+/* HACK:sticky vs ページ内リンク (54px + 適当) */
+.ly-hack-anchor {
+  display: block;
+  position: relative;
+  top: -70px;
+  visibility: hidden;
+}
+
+.ly-main-top {
+  margin-top: 0;
+}
+
+.ly-input-container {
+  margin-bottom: 2rem;
+}
+
+.ly-caption-label {
+  display: block;
+}
+
+/****** structure module blocks *******/
+/* width(child), height, border, padding, min-width, min-height... */
+
+.content-section {
+  padding-top: 2rem;
+  padding-bottom: 1rem;
+}
+
+.iframe-16-9-container {
+  position: relative;
+  height: auto;
+  width: 100%;
+  padding-top: 56.25%;
+}
+
+.iframe-16-9-container iframe {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/********* skin module blocks *********/
+/* color, border-color, background-color... */
+.skn-glass {
+  background-color: var(--base-bg-color-glass);
+}
+
+.skn-brand-positive {
+  color: var(--base-brand-color);
+  background-color: inherit;
+}
+
+.skn-brand-negative {
+  color: #ffffff;
+  background-color: var(--base-brand-color);
+}
+
+.skn-inline-centering {
+  text-align: center;
+}
+
+.skn-inline-right {
+  text-align: right;
+}
+
+.skn-simple-border {
+  border-style: solid;
+  border-color: #999999;
+}
+
+.skn-vertical-box-shadow {
+  box-shadow: 0 1px 4px #eeeeee;
+}
+
+/********** composite blocks **********/
+/* layout + structure + skin */
+.default-fieldset {
+  margin: 1.6rem 0 0.2rem 0;
+  padding-left: 4%;
+  padding-right: 4%;
+}
+
+.full-width-inputs input[type="text"],
+.full-width-inputs input[type="email"],
+.full-width-inputs select,
+.full-width-inputs textarea {
+  /* structure */
+  padding: 0.5rem;
+  width: 100%;
+  border-width: 1px;
+  /* skin */
+}
+
+.site-title {
+  /* structure */
+  width: max-content;
+  padding: 14px;
+}
+
+.site-title__title {
+  /* structure */
+  width: max-content;
+  /* skin */
+  font-weight: bold;
+}
+
+.site-title__subtitle {
+  /* structure */
+  width: max-content;
+  /* skin */
+  font-size: 8px;
+  font-weight: bold;
+}
+
+.main-content {
+  /* structure */
+  margin-left: auto;
+  margin-right: auto;
+  /* structure */
+  width: 85%;
+}
+
+.site-footer {
+  /* structure */
+  padding: 2px;
+  /* skin */
+  font-size: 14px;
+}
+
+
+
+/***************************************
+hamburger system
+***************************************/
+/*
+e.g.
+#site-menu-mobile-state
+ │
+.site-menu-mobile-state__sibling ─ .hamburger-container-40px ─ .hamburger-container-40px__lines .anm-hamburger-lines
+ │
+.site-menu-mobile-state__sibling ─ 連動させたいパーツ
+*/
+/******** hamburger structure *********/
+.hamburger-container-40px {
+  height: 40px;
+  width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hamburger-container-40px__line-top___,
+.hamburger-container-40px__line_______,
+.hamburger-container-40px__line-bottom {
+  display: block;
+  position: absolute;
+  width: 20px;
+  content: '';
+}
+
+.hamburger-container-40px__line-top___ {
+  /* align-items: center & absoluteなので、2倍の値が必要 */
+  margin-top: -15px;
+}
+
+.hamburger-container-40px__line-bottom {
+  /* align-items: center & absoluteなので、2倍の値が必要 */
+  margin-top: 15px;
+}
+
+/*********** hamburger skin ***********/
+.skn-hamburger-lines {
+  height: 2px;
+  border-radius: 1px;
+}
+
+/***** hamburger animation speed ******/
+.anm-hamburger-lines {
+  transition: transform 200ms ease-in-out;
+}
+
+/**************** bind ****************/
+#site-menu-mobile-state {
+  display: none;
+}
+
+#site-menu-mobile-state:checked~.site-menu-mobile-state__sibling .hamburger-container-40px__line-top___ {
+  transform: rotate(45deg) scaleX(1.2) translate(3px, 7px);
+}
+
+#site-menu-mobile-state:checked~.site-menu-mobile-state__sibling .hamburger-container-40px__line_______ {
+  background: rgba(255, 255, 255, 0);
+}
+
+#site-menu-mobile-state:checked~.site-menu-mobile-state__sibling .hamburger-container-40px__line-bottom {
+  transform: rotate(-45deg) scaleX(1.2) translate(3px, -7px);
+}
+
+
+
+/**************************************
+pc
+**************************************/
+@media(min-width: 768px) {
+  .ly-displayed-on-pc {
+    display: block;
+  }
+
+  .ly-displayed-on-mobile {
+    display: none;
+  }
+
+  .site-header-pc {
+    height: 64px;
+  }
+
+  /********** composite blocks **********/
+  /* layout + structure + skin */
+  .site-menu-pc {
+    /* structure */
+    padding: 14px;
+  }
+
+  .site-menu-pc__list {
+    /* layout */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0 1.5rem;
+    /* structure */
+    padding: 0;
+    /* skn */
+    list-style-type: none;
+  }
+
+  .site-menu-pc__list a:link,
+  .site-menu-pc__list a:visited,
+  .site-menu-pc__list a:active {
+    /* skn */
+    color: var(--base-brand-color);
+  }
+
+  .page-title-pc {
+    padding-top: 6px;
+    padding-left: 2.5%;
+    padding-right: 2.5%;
+  }
+}
+
+
+
+/**************************************
+mobile
+**************************************/
+@media(max-width: 767px) {
+  .ly-displayed-on-pc {
+    display: none;
+  }
+
+  .ly-displayed-on-mobile {
+    display: block;
+  }
+
+  .site-header-mobile {
+    height: auto;
+    transition: all 200ms ease-in-out;
+  }
+
+  /********** composite blocks **********/
+  /* layout + structure + skin */
+  .page-title-mobile {
+    /* structure */
+    width: 75%;
+    height: 40px;
+    /* skin */
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 40px;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .site-menu-mobile-state__sibling {
+    /* structure */
+    transition: all 200ms ease-in-out;
+  }
+
+  .site-menu-mobile {
+    /* layout */
+    margin: 0;
+    /* structure */
+    height: 0;
+    transition: all 200ms ease-in-out;
+    /* skin */
+    overflow: hidden;
+  }
+
+  .site-menu-mobile__list {
+    /* layout */
+    margin-top: 0px;
+    margin-bottom: 0px;
+    /* structure */
+    padding: 14px;
+    width: max-content;
+    /* skin */
+    list-style-type: none;
+  }
+
+  .site-menu-mobile__list a:link,
+  .site-menu-mobile__list a:visited,
+  .site-menu-mobile__list a:active {
+    /* skin */
+    color: var(--base-brand-color);
+  }
+
+  #site-menu-mobile-state:checked~.site-menu-mobile-state__sibling {
+    /* skin */
+    background-color: var(--base-bg-color-glass2);
+  }
+
+  #site-menu-mobile-state:checked~.site-menu-mobile-state__sibling .site-menu-mobile {
+    /* height: auto; だとアニメーションが利かないため固定値が必要 */
+    /* structure */
+    height: 280px;
+  }
+}

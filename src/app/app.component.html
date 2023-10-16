@@ -1,3 +1,63 @@
-<div [@routeAnimations]="getRouteAnimationState()">
-  <router-outlet></router-outlet>
+<div id="app" class="ly-flex-container-100vh" [@routeAnimations]="getRouteAnimationState()">
+  <header class="ly-sticky-header skn-glass skn-vertical-box-shadow">
+    <div class="ly-displayed-on-pc site-header-pc">
+      <div class="ly-absolute-left site-title">
+        <div class="skn-brand-positive site-title__title">ここはサイトタイトル</div>
+        <div class="skn-brand-positive site-title__subtitle">ARUI HA LOGO</div>
+      </div>
+      <nav class="ly-absolute-right site-menu-pc">
+        <ul class="site-menu-pc__list">
+          <li><a href="#nav1">メニュー1</a></li>
+          <li><a href="#nav2">メニュー2</a></li>
+          <li><a href="#nav3">メニュー3</a></li>
+          <li><a href="#nav4">メニュー4</a></li>
+          <li><a href="#nav5">メニュー5</a></li>
+          <li><a href="#nav6">メニュー6</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="ly-displayed-on-mobile site-header-mobile">
+      <input type="checkbox" id="site-menu-mobile-state">
+      <div class="site-menu-mobile-state__sibling">
+        <div class="ly-absolute-right">
+          <label class="hamburger-container-40px" for="site-menu-mobile-state">
+            <span
+              class="hamburger-container-40px__line-top___ skn-hamburger-lines anm-hamburger-lines skn-brand-negative">
+            </span>
+            <span
+              class="hamburger-container-40px__line_______ skn-hamburger-lines anm-hamburger-lines skn-brand-negative">
+            </span>
+            <span
+              class="hamburger-container-40px__line-bottom skn-hamburger-lines anm-hamburger-lines skn-brand-negative">
+            </span>
+          </label>
+        </div>
+        <div class="ly-box-centering page-title-mobile skn-brand-positive">記事タイトル７８９０１２３４５６７８９０１２３４５６７８９０</div>
+      </div>
+      <nav class="site-menu-mobile-state__sibling">
+        <div class="site-menu-mobile">
+          <div class="site-title">
+            <div class="skn-brand-positive site-title__title">ここはサイトタイトル</div>
+            <div class="skn-brand-positive site-title__subtitle">ARUI HA LOGO</div>
+          </div>
+          <ul class="ly-box-right site-menu-mobile__list">
+            <li><a href="#nav1">メニュー1</a></li>
+            <li><a href="#nav2">メニュー2</a></li>
+            <li><a href="#nav3">メニュー3</a></li>
+            <li><a href="#nav4">メニュー4</a></li>
+            <li><a href="#nav5">メニュー5</a></li>
+            <li><a href="#nav6">メニュー6</a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </header>
+  <main class="ly-flex-1" style="position: relative;">
+    <router-outlet></router-outlet>
+  </main>
+  <footer class="skn-brand-negative">
+    <div class="site-footer">
+      <div class="skn-inline-centering">サイト全体のフッター</div>
+    </div>
+  </footer>
 </div>
