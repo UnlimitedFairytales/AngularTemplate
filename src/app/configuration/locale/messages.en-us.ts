@@ -1,7 +1,7 @@
 export const EnusMessages = {
   E9999: 'System error. Please reload. <br/>Please contact the administrator.',
   E9998: 'Client error. <br/>Do you want to send log detail to the server for improving the system?',
-  E9997: 'Error for DB register, Please contact the administrator.',
+  E9997: 'DB error, Please contact the administrator.',
   E9996: 'Failed for document output.',
   E9995: 'Fax sending failed.',
   E9994: 'loading failed.',
