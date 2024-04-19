@@ -8,6 +8,7 @@ export const EnusMessages = {
   E9993: 'Timeout',
   E9992: 'Network error.',
 
+  W6002: 'Service is stopped.',
   W6001: 'Using Web is not permitted. <br/>Please contact the administrator.',
 
   W5001: 'Login failed.',
