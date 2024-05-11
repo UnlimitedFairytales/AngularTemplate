@@ -16,6 +16,7 @@ export const EnusMessages = {
   W5003: 'The password is incorrect.',
   W5004: 'Login is not allowed.',
   W5005: 'Not authorized',
+  W5006: 'This is stateless authentication. Logout is pointless.',
 
   W4001: 'Session time out. Please login again.',
   W4002: 'No operation time out ({0}hours), please reload.',
